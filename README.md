@@ -32,7 +32,7 @@ A simple Python script to monitor the position and state of a FluidNC CNC machin
 Edit the `config` file to set your FluidNC machine's IP address and update interval:
    ```ini
    [FluidNC]
-   ip_address = 10.0.0.246
+   ip_address = <your-fluidnc-ip>
    update_interval = 0.2  # Updates every 200ms
    ```
 
