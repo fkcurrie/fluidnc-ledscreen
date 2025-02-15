@@ -1,0 +1,53 @@
+FROM python:3.11-slim as builder
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    python3-dev \
+    gcc \
+    libc6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create and activate virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.11-slim
+
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y \
+    python3-dev \
+    udev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user and add to gpio group
+RUN useradd -m -r -u 1000 leduser && \
+    groupadd -r gpio && \
+    usermod -a -G gpio leduser
+
+WORKDIR /app
+COPY . .
+
+# Create logs directory with correct permissions
+RUN mkdir -p /app/logs && \
+    chown -R leduser:leduser /app
+
+USER leduser
+
+# Health check with environment variable
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD FLUIDNC_IP=${FLUIDNC_IP} python3 -c "import os, websocket; ws = websocket.create_connection(f'ws://{os.environ[\"FLUIDNC_IP\"]}:81'); ws.close()" || exit 1
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Command to run the application
+ENTRYPOINT ["python3", "fluidnc_monitor.py"] 

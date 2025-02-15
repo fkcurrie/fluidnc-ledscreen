@@ -15,6 +15,10 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import signal
 import sys
+from logging_config import setup_logging
+
+# Initialize logger
+logger = setup_logging()
 
 class LEDDisplay:
     def __init__(self):
@@ -253,6 +257,7 @@ def main():
     signal.signal(signal.SIGINT, cleanup)
     
     try:
+        logger.info("Connecting to FluidNC WebSocket at %s...", ip_address)
         stream_status(ip_address, interval)
     except KeyboardInterrupt:
         print("\nProgram terminated by user")

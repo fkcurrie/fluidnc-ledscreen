@@ -1,2 +1,11 @@
-/venv
-/fluidnc-ledscreen
+# Virtual Environment
+fluidnc-ledscreen/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log

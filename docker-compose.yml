@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  fluidnc-monitor:
+    build: 
+      context: .
+      dockerfile: Dockerfile.prod
+    privileged: true  # Required for LED matrix access
+    devices:
+      - "/dev/gpiomem:/dev/gpiomem"  # GPIO access
+      - "/dev/gpiochip0:/dev/gpiochip0"  # PIO access
+      - "/dev/gpiochip1:/dev/gpiochip1"  # Additional PIO access
+      - "/dev/gpiochip2:/dev/gpiochip2"  # Additional PIO access
+      - "/dev/gpiochip3:/dev/gpiochip3"  # Additional PIO access
+      - "/dev/gpiochip4:/dev/gpiochip4"  # Additional PIO access
+    volumes:
+      - "./config:/app/config:ro"  # Mount config file as read-only
+      - "led_logs:/app/logs"  # Persistent logs
+    environment:
+      - TZ=UTC  # Set your timezone
+      - FLUIDNC_IP=10.0.0.246  # Add FluidNC IP address
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "FLUIDNC_IP=${FLUIDNC_IP}", "python3", "-c", "import os, websocket; ws = websocket.create_connection(f'ws://{os.environ[\"FLUIDNC_IP\"]}:81'); ws.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    security_opt:
+      - seccomp:unconfined
+    user: root  # Temporarily run as root for debugging
+
+volumes:
+  led_logs:  # Persistent volume for logs 
