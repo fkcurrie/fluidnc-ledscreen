@@ -47,7 +47,112 @@ Configuration details can be found in the official documentation linked above. M
 
 ## Usage
 
-Basic usage instructions will be added here as the project develops.
+This application can be run either directly on your Raspberry Pi or via Docker.
+
+### Direct Method
+
+1. Create and activate a virtual environment:
+   ```bash
+   python -m venv fluidnc-ledscreen
+   source fluidnc-ledscreen/bin/activate
+   ```
+
+2. Install required packages:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure your FluidNC IP address:
+   ```bash
+   # Edit config file
+   nano config
+   ```
+   ```ini
+   [FluidNC]
+   ip_address = <your-fluidnc-ip>
+   update_interval = 0.05  # Updates every 50ms
+   ```
+
+4. Run the script (LED matrix requires sudo):
+   ```bash
+   sudo -E env PATH=$PATH python3 fluidnc_monitor.py
+   ```
+
+### Docker Method (Recommended)
+
+1. First-time setup:
+   ```bash
+   # Make management scripts executable
+   chmod +x scripts/*.sh
+
+   # Create environment file
+   ./scripts/create-env.sh
+   ```
+
+2. Start the container:
+   ```bash
+   ./scripts/start.sh
+   ```
+
+3. View logs:
+   ```bash
+   ./scripts/logs.sh
+   ```
+
+4. Stop the container:
+   ```bash
+   ./scripts/stop.sh
+   ```
+
+### Management Scripts
+
+The following scripts are available in the `scripts` directory:
+
+- `./scripts/start.sh` - Start the container (creates .env if needed)
+- `./scripts/stop.sh` - Stop the container
+- `./scripts/restart.sh` - Restart the container
+- `./scripts/logs.sh` - View container logs
+- `./scripts/update.sh` - Update to latest version
+- `./scripts/cleanup.sh` - Clean up Docker resources
+- `./scripts/create-env.sh` - Create/update .env file
+
+### Features
+
+- Real-time position monitoring via WebSocket
+- LED matrix display showing:
+  - Machine state
+  - X, Y, Z coordinates
+  - Status updates
+- Automatic reconnection
+- 50ms refresh rate
+- Test pattern on startup
+- Container health monitoring
+- Automatic log rotation
+- Hardware access via GPIO
+
+### Example Output
+```
+Time: 2024-02-15 14:12:15.739
+Machine State: Idle
+Position:
+  X: 0.000 mm
+  Y: 0.000 mm
+  Z: 0.000 mm
+
+Reconnections: 0
+Press Ctrl+C to stop
+```
+
+### Troubleshooting
+
+If you encounter issues:
+1. Check your FluidNC IP address is correct
+2. Verify LED matrix connections
+3. Ensure proper permissions for GPIO access
+4. Check container logs for errors
+5. Verify network connectivity to FluidNC
+
+For hardware-specific issues, refer to the Adafruit guide linked in the Setup section.
 
 ## Contributing
 
