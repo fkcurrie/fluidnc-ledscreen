@@ -133,9 +133,7 @@ The following scripts are available in the `scripts` directory:
 ### Example Output
 
 #### Video Demo
-[![FluidNC LED Display Demo](path_to_thumbnail_image)](https://drive.google.com/file/d/13jo36GCuiOpbHIAVWCEpYrmUuQVv4Clf/view)
-
-Click the image above to view a video demonstration of the LED matrix display in action.
+<iframe width="640" height="480" src="[YouTube URL]" frameborder="0" allowfullscreen></iframe>
 
 The LED matrix display shows:
 1. Machine state at the top (e.g., "Idle", "Run", "Hold")
