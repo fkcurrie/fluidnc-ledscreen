@@ -36,16 +36,23 @@ Edit the `config` file to set your FluidNC machine's IP address and update inter
    update_interval = 0.2  # Updates every 200ms
    ```
 
-## Usage
+## Running the Script
 
-Run the monitor:
+1. Activate the virtual environment:
    ```bash
-   python fluidnc_monitor.py
+   source fluidnc-ledscreen/bin/activate
    ```
+
+2. Run the script (LED matrix requires sudo):
+   ```bash
+   sudo -E env PATH=$PATH python3 fluidnc_monitor.py
+   ```
+
+Note: The script requires sudo privileges to access the LED matrix hardware, but must preserve the Python virtual environment.
 
 The script will:
 - Connect to your FluidNC machine via WebSocket
-- Display real-time position (X, Y, Z) and machine state
+- Display real-time position (X, Y, Z) and machine state on both terminal and LED matrix
 - Show timestamp for each update
 - Automatically reconnect if connection is lost
 - Display reconnection count
