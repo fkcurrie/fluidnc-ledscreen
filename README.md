@@ -131,6 +131,21 @@ The following scripts are available in the `scripts` directory:
 - Hardware access via GPIO
 
 ### Example Output
+
+#### Video Demo
+[![FluidNC LED Display Demo](path_to_thumbnail_image)](https://drive.google.com/file/d/13jo36GCuiOpbHIAVWCEpYrmUuQVv4Clf/view)
+
+Click the image above to view a video demonstration of the LED matrix display in action.
+
+The LED matrix display shows:
+1. Machine state at the top (e.g., "Idle", "Run", "Hold")
+2. Real-time position coordinates:
+   - X position in red
+   - Y position in green
+   - Z position in blue
+3. White border around the display
+
+Terminal output example:
 ```
 Time: 2024-02-15 14:12:15.739
 Machine State: Idle
@@ -142,6 +157,8 @@ Position:
 Reconnections: 0
 Press Ctrl+C to stop
 ```
+
+For video demonstrations of the display in action, check the project's releases page.
 
 ### Troubleshooting
 
