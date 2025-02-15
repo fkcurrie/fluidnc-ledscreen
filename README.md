@@ -1,6 +1,8 @@
 # RGB Matrix Panel Controller
 
-This project controls RGB LED matrix panels using a **__Raspberry Pi 5__** .
+This project controls RGB LED matrix panels using a **__Raspberry Pi 5__**.
+
+> **Note:** This project currently only works with Raspberry Pi 5 due to specific libraries used with the Adafruit RGB Matrix Bonnet. Support for older Raspberry Pi models to work with the FluidNC LED Matrix Display is planned but not yet implemented.
 
 ## Required Hardware
 
