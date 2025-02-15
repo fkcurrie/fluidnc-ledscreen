@@ -46,6 +46,85 @@ There are two ways to configure the application:
    FLUIDNC_IP=10.0.0.246
    ```
 
+## Hardware Requirements
+
+### Raspberry Pi
+- Raspberry Pi 5 (recommended)
+- Raspbian OS Bookworm or later
+- 2GB RAM minimum
+
+### LED Matrix Display
+- [64x32 RGB LED Matrix Display](https://www.amazon.ca/dp/B0BR7WTW2G)
+  - Resolution: 64x32 pixels
+  - Pitch: 4mm
+  - Interface: HUB75
+  - Power: 5V/3A recommended
+
+### RGB Matrix Bonnet
+- [Adafruit RGB Matrix Bonnet](https://www.adafruit.com/product/3211)
+  - Compatible with Raspberry Pi 5
+  - Handles RGB matrix power and signal conversion
+  - No soldering required
+
+### Power Supply
+- 5V/3A power supply for LED matrix
+- Standard Raspberry Pi power supply
+
+## Hardware Setup
+
+1. Attach the RGB Matrix Bonnet to your Raspberry Pi:
+   - Carefully align the bonnet with the GPIO pins
+   - Press down firmly to ensure good connection
+
+2. Connect the LED Matrix:
+   - Connect the HUB75 cable from the matrix to the bonnet
+   - Ensure correct orientation (red stripe on cable aligns with pin 1)
+   - Connect power to the matrix (via bonnet or direct)
+
+3. Power Configuration:
+   ```bash
+   # Install RGB Matrix utilities
+   curl https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/main/rgb-matrix.sh >rgb-matrix.sh
+   sudo bash rgb-matrix.sh
+   ```
+   Choose:
+   - "Configure for Adafruit HAT/Bonnet"
+   - "Quality (disables sound, requires reboot)"
+
+4. System Configuration:
+   ```bash
+   # Enable SPI and I2C
+   sudo raspi-config
+   # Navigate to: Interface Options > SPI > Enable
+   # Navigate to: Interface Options > I2C > Enable
+   ```
+
+5. Reboot your Raspberry Pi:
+   ```bash
+   sudo reboot
+   ```
+
+### Troubleshooting
+
+- If the display is dim or flickering:
+  - Check power supply capacity (5V/3A minimum)
+  - Verify bonnet connection
+  - Try different brightness settings
+
+- If colors are incorrect:
+  - Check HUB75 cable orientation
+  - Verify matrix type in configuration
+  - Try different scan patterns
+
+- If no display:
+  - Verify GPIO permissions
+  - Check power connections
+  - Ensure correct software configuration
+
+For more detailed hardware setup instructions, visit:
+- [Adafruit RGB Matrix Bonnet Guide](https://learn.adafruit.com/adafruit-rgb-matrix-bonnet-for-raspberry-pi)
+- [RGB LED Matrix Guide](https://learn.adafruit.com/32x16-32x32-rgb-led-matrix)
+
 ## Running the Application
 
 You can run this application either directly or using Docker.
