@@ -134,6 +134,7 @@ The following scripts are available in the `scripts` directory:
 
 #### Video Demo
 [![FluidNC LED Matrix Display Demo](https://img.youtube.com/vi/jGGGwgc2lLE/0.jpg)](https://youtu.be/jGGGwgc2lLE)
+
 *Click image to watch video demonstration*
 
 The LED matrix display shows:
