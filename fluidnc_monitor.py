@@ -21,10 +21,11 @@ from logging_config import setup_logging
 logger = setup_logging()
 
 class LEDDisplay:
-    def __init__(self):
+    def __init__(self, ip_address):
         print("Initializing LED Display...")
         self.width = 64
         self.height = 32
+        self.ip_address = ip_address  # Store IP address
         
         try:
             # Initialize the LED matrix
@@ -78,11 +79,13 @@ class LEDDisplay:
             print("Test pattern displayed")
             time.sleep(2)  # Keep test pattern visible for 2 seconds
             
-            # Now show the loading message
+            # Now show the IP address
             self.clear_display()
-            self.draw.text((2, 12), "LOADING", font=self.font, fill=(255, 255, 0))  # Yellow text
+            self.draw.text((2, 2), "FluidNC IP:", font=self.font, fill=(255, 255, 255))  # White text
+            self.draw.text((2, 12), f"{self.ip_address}", font=self.font, fill=(255, 255, 0))  # Yellow text
             self.update_display()
-            print("Loading message displayed")
+            print(f"Displaying IP: {self.ip_address}")
+            time.sleep(10)  # Show IP for 10 seconds
             
         except Exception as e:
             print(f"Display test failed: {e}")
@@ -189,7 +192,7 @@ def stream_status(ip_address, interval=0.2):
     reconnect_count = 0
     
     # Initialize LED display once (this will run the test pattern)
-    led_display = LEDDisplay()
+    led_display = LEDDisplay(ip_address)
     
     while True:
         try:
