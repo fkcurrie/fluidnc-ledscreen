@@ -1,6 +1,6 @@
 # RGB Matrix Panel Controller
 
-This project controls RGB LED matrix panels using a Raspberry Pi.
+This project controls RGB LED matrix panels using a *Raspberry Pi 5*.
 
 ## Required Hardware
 
