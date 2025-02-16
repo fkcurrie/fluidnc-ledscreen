@@ -1,4 +1,4 @@
 #!/bin/bash
-echo "Stopping FluidNC LED Monitor..."
+echo "Stopping FluidNC LED Monitor and Web Interface..."
 docker-compose down
-echo "Container stopped." 
+echo "All containers stopped." 

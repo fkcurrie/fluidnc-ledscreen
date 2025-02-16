@@ -16,6 +16,7 @@ from PIL import Image, ImageDraw, ImageFont
 import signal
 import sys
 from logging_config import setup_logging
+import requests
 
 # Initialize logger
 logger = setup_logging()
@@ -120,10 +121,16 @@ class LEDDisplay:
             y_pos = f"Y:{current_positions[1]:.1f}"
             z_pos = f"Z:{current_positions[2]:.1f}"
             
-            new_draw.text((2, 0), state, font=self.font, fill=(255, 255, 255))
-            new_draw.text((2, 10), x_pos, font=self.font, fill=(255, 0, 0))
-            new_draw.text((2, 20), y_pos, font=self.font, fill=(0, 255, 0))
-            new_draw.text((32, 20), z_pos, font=self.font, fill=(0, 0, 255))
+            # New layout:
+            # Z and State on top line
+            new_draw.text((2, 0), z_pos, font=self.font, fill=(0, 0, 255))      # Z in blue
+            new_draw.text((32, 0), state, font=self.font, fill=(255, 255, 255)) # State in white
+            
+            # X and Y on their own lines
+            new_draw.text((2, 12), x_pos, font=self.font, fill=(255, 0, 0))     # X in red
+            new_draw.text((2, 24), y_pos, font=self.font, fill=(0, 255, 0))     # Y in green
+            
+            # White border
             new_draw.rectangle((0, 0, self.width-1, self.height-1), outline=(255, 255, 255))
             
             # Update framebuffer directly
@@ -223,6 +230,20 @@ def stream_status(ip_address, interval=0.2):
                         
                         # Update LED display
                         led_display.display_position(status)
+                        
+                        # Send update to web interface
+                        web_data = {
+                            'state': status['state'],
+                            'position': status['position'],
+                            'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
+                            'reconnections': reconnect_count
+                        }
+                        try:
+                            logger.info(f"Sending update to web interface: {web_data}")
+                            response = requests.post('http://web-interface:5000/api/state', json=web_data, timeout=1)
+                            logger.info(f"Web interface response: {response.status_code} - {response.text}")
+                        except Exception as e:
+                            logger.error(f"Error updating web interface: {e}")
                 
                 time.sleep(interval)
                 

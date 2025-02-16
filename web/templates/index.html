@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FluidNC Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #000913;
+            --bg-panel: #001326;
+            --accent: #00f3ff;
+            --accent-glow: #00f3ff80;
+            --text: #ffffff;
+            --grid: #004b8a;
+            --danger: #ff0033;
+            --success: #00ff66;
+            --warning: #ffcc00;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: var(--bg-dark);
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center center;
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding-bottom: 15vh;
+        }
+
+        .container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .panel {
+            background: var(--bg-panel);
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 0 15px var(--accent-glow);
+            border: 1px solid var(--accent);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-panel);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--accent);
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .state-panel {
+            text-align: center;
+        }
+
+        .state {
+            font-size: 2em;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .coordinates {
+            display: grid;
+            gap: 15px;
+        }
+
+        .coordinate {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            border: 1px solid currentColor;
+        }
+
+        .coordinate i {
+            font-size: 1.5em;
+            width: 30px;
+        }
+
+        .coordinate-value {
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .x-pos { color: var(--danger); box-shadow: 0 0 10px rgba(255, 0, 51, 0.3); }
+        .y-pos { color: var(--success); box-shadow: 0 0 10px rgba(0, 255, 102, 0.3); }
+        .z-pos { color: var(--accent); box-shadow: 0 0 10px rgba(0, 243, 255, 0.3); }
+
+        .status-running { color: var(--success); border: 1px solid var(--success); }
+        .status-idle { color: var(--warning); border: 1px solid var(--warning); }
+        .status-alarm { color: var(--danger); border: 1px solid var(--danger); }
+        .status-hold { color: var(--warning); border: 1px solid var(--warning); }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: rgba(0, 243, 255, 0.05);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .stat-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: var(--text);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 15vh;
+            margin: 0;
+            padding: 10px 20px;
+            background: var(--bg-panel);
+            border-top: 1px solid var(--accent);
+            border-radius: 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .system-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 8px;
+            align-content: center;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 8px;
+            background: rgba(0, 243, 255, 0.05);
+            border-radius: 3px;
+            font-size: 0.8em;
+            white-space: nowrap;
+        }
+
+        .info-label {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .info-value {
+            color: var(--text);
+        }
+
+        #local-time {
+            text-align: right;
+            color: var(--accent);
+            font-size: 1.2em;
+            text-shadow: 0 0 10px var(--accent);
+            align-self: center;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .blink {
+            animation: blink 0.5s ease-in-out;
+        }
+    </style>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script> -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let updateCount = 0;
+            
+            function updateLocalTime() {
+                const now = new Date();
+                document.getElementById('local-time').textContent = 
+                    now.toLocaleTimeString('en-US', { 
+                        hour12: false,
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    });
+            }
+
+            function pollState() {
+                fetch('/api/state')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Received update:', data);
+                        updateDisplay(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching state:', error);
+                        document.getElementById('state').textContent = 'Error';
+                    });
+            }
+
+            function updateDisplay(data) {
+                if (!data) return;
+                updateCount++;
+                
+                if (data.state) {
+                    const stateElement = document.getElementById('state');
+                    stateElement.textContent = data.state;
+                    stateElement.className = 'state status-' + data.state.toLowerCase();
+                }
+                
+                if (data.position) {
+                    if (data.position.x !== undefined) updatePosition('x', data.position.x);
+                    if (data.position.y !== undefined) updatePosition('y', data.position.y);
+                    if (data.position.z !== undefined) updatePosition('z', data.position.z);
+                }
+                
+                if (data.time) document.getElementById('time').textContent = data.time;
+                if (data.reconnections !== undefined) document.getElementById('reconnections').textContent = data.reconnections;
+                document.getElementById('updates').textContent = updateCount;
+            }
+            
+            function updatePosition(axis, value) {
+                const element = document.getElementById(axis + '-pos');
+                if (!element) return;
+                
+                const valueElement = element.querySelector('.coordinate-value');
+                if (!valueElement) return;
+                
+                const current = parseFloat(element.getAttribute('data-value') || 0);
+                const newValue = parseFloat(value);
+                
+                if (current !== newValue) {
+                    element.classList.add('blink');
+                    setTimeout(() => element.classList.remove('blink'), 500);
+                }
+                
+                element.setAttribute('data-value', newValue);
+                valueElement.textContent = newValue.toFixed(3) + ' mm';
+            }
+
+            // Start polling and time updates
+            pollState();
+            updateLocalTime();
+            setInterval(pollState, 2000);
+            setInterval(updateLocalTime, 1000);
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FluidNC Dashboard</h1>
+        </div>
+        
+        <div class="dashboard">
+            <div class="panel state-panel">
+                <h2>Machine State</h2>
+                <div id="state" class="state status-idle">Unknown</div>
+            </div>
+            
+            <div class="panel">
+                <h2>Position</h2>
+                <div class="coordinates">
+                    <div id="x-pos" class="coordinate x-pos" data-value="0">
+                        <div><i class="fas fa-arrows-alt-h"></i> X</div>
+                        <div class="coordinate-value">0.000 mm</div>
+                    </div>
+                    <div id="y-pos" class="coordinate y-pos" data-value="0">
+                        <div><i class="fas fa-arrows-alt-v"></i> Y</div>
+                        <div class="coordinate-value">0.000 mm</div>
+                    </div>
+                    <div id="z-pos" class="coordinate z-pos" data-value="0">
+                        <div><i class="fas fa-level-down-alt"></i> Z</div>
+                        <div class="coordinate-value">0.000 mm</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2>Statistics</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="updates">0</div>
+                        <div class="stat-label">Updates</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="reconnections">0</div>
+                        <div class="stat-label">Reconnections</div>
+                    </div>
+                    <div class="stat-card" style="grid-column: span 2;">
+                        <div class="stat-value" id="time">--:--:--</div>
+                        <div class="stat-label">Last Update</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="system-info">
+                <div class="info-item">
+                    <span class="info-label">System</span>
+                    <span class="info-value">{{ system_info.pi_model }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CPU</span>
+                    <span class="info-value">{{ system_info.cpu_temp }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Memory</span>
+                    <span class="info-value">{{ system_info.memory }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Uptime</span>
+                    <span class="info-value">{{ system_info.uptime }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Host</span>
+                    <span class="info-value">{{ system_info.hostname }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">OS</span>
+                    <span class="info-value">{{ system_info.os }}</span>
+                </div>
+            </div>
+            <div id="local-time">--:--:--</div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -34,6 +34,28 @@ services:
     security_opt:
       - seccomp:unconfined
     user: root  # Temporarily run as root for debugging
+    networks:
+      - fluidnc-net
+
+  web-interface:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc:/host/etc:ro
+    depends_on:
+      - fluidnc-monitor
+    networks:
+      - fluidnc-net
+    restart: unless-stopped
 
 volumes:
   led_logs:  # Persistent volume for logs 
+
+networks:
+  fluidnc-net:
+    driver: bridge 
