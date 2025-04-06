@@ -1,6 +1,6 @@
 adafruit-blinka-raspberry-pi5-piomatter==1.0.0a10
 bdflib==2.1.0
-Flask==2.3.3
+Flask==2.2.5
 gunicorn==23.0.0
 Jinja2==3.1.6
 MarkupSafe==2.1.5
