@@ -61,3 +61,10 @@ examples/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# GitHub
+.git/credentials
+.github/
+.github-token
+.github_token
+*.github_token
