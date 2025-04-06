@@ -1,11 +1,63 @@
-# Virtual Environment
-fluidnc-ledscreen/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Environment variables
+# Virtual Environment
+venv/
+ENV/
+env/
 .env
+.venv
+test_venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.cursor/
 
 # Logs
-logs/
+logs/*
+!logs/.gitkeep
 *.log
+
+# Docker
+.docker/
+
+# Test files
+test_*.py
+examples/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

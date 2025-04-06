@@ -1,9 +1,10 @@
 # Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -15,7 +16,6 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg

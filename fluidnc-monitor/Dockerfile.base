@@ -1,0 +1,40 @@
+FROM arm64v8/python:3.11-slim-bullseye
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    python3-setuptools \
+    python3-pip \
+    python3-venv \
+    wget \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m monitoruser && \
+    groupadd -f gpio && \
+    usermod -a -G gpio monitoruser
+
+# Create app directory and set permissions
+WORKDIR /app
+RUN mkdir -p /app/logs && \
+    mkdir -p /app/fonts && \
+    chown -R monitoruser:monitoruser /app && \
+    chmod -R 777 /app/logs
+
+# Download fonts once in base image
+RUN BDF_BASE_URL="https://raw.githubusercontent.com/hzeller/rpi-rgb-led-matrix/master/fonts" && \
+    cd /app/fonts && \
+    wget "$BDF_BASE_URL/4x6.bdf" && \
+    wget "$BDF_BASE_URL/5x7.bdf" && \
+    wget "$BDF_BASE_URL/5x8.bdf" && \
+    wget "$BDF_BASE_URL/6x10.bdf" && \
+    wget "$BDF_BASE_URL/6x12.bdf" && \
+    chown -R monitoruser:monitoruser /app/fonts
+
+# Copy and install requirements
+COPY --chown=monitoruser:monitoruser ../requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+USER monitoruser 

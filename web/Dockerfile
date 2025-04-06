@@ -1,19 +1,17 @@
-FROM python:3.9-slim
+FROM python:3.11-slim
 
+# Set up working directory
 WORKDIR /app
 
-# Copy and install requirements
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Flask and dependencies directly
+RUN pip install --no-cache-dir flask==1.1.2 werkzeug==1.0.1 gunicorn==20.1.0 jinja2==2.11.3 markupsafe==2.0.1 itsdangerous==1.1.0 click==7.1.2
 
 # Copy application code
-COPY . .
+COPY web/app.py app.py
+COPY web/templates templates/
 
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=production
-ENV PYTHONUNBUFFERED=1
+# Mount points for system files (defined here for documentation)
+VOLUME ["/proc", "/sys", "/etc"]
 
-# Create mount points for host system files
-RUN mkdir -p /host/proc /host/sys /host/etc
-
-CMD ["gunicorn", "-w", "1", "--bind", "0.0.0.0:5000", "app:app"] 
+# Use direct command instead of gunicorn for faster startup
+CMD ["python3", "app.py"] 

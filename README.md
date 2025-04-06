@@ -1,182 +1,213 @@
-# RGB Matrix Panel Controller
+# FluidNC LED Screen Monitor
 
-This project controls RGB LED matrix panels using a **__Raspberry Pi 5__**.
+A Python application that displays FluidNC status on an LED matrix display.
 
-> **Note:** This project currently only works with Raspberry Pi 5 due to specific libraries used with the Adafruit RGB Matrix Bonnet. Support for older Raspberry Pi models to work with the FluidNC LED Matrix Display is planned but not yet implemented.
+## Setup and Usage
 
-## Required Hardware
+### Prerequisites
 
-### Core Components
-1. Raspberry Pi 5
-   - [PiShop.ca](https://www.pishop.ca/product/raspberry-pi-5-8gb/) - 8GB Model
-   - [BuyaPi.ca](https://buyapi.ca/product/raspberry-pi-5-8gb/) - 8GB Model
-   - [Chicago Electronic Distributors](https://chicagodist.com/products/raspberry-pi-5) - US Option
+1. Raspberry Pi with a 64x32 RGB LED Matrix panel
+2. Docker and Docker Compose installed
+3. FluidNC controller running and accessible on the network
 
-2. RGB Matrix Bonnet for Raspberry Pi
-   - [Adafruit](https://www.adafruit.com/product/3211) - Official Source
-   - [Digikey](https://www.digikey.com/en/products/detail/adafruit-industries-llc/3211/6580122)
+### Installation
 
-3. 64x32 RGB LED Matrix Panel - 4mm Pitch
-   - [Adafruit](https://www.adafruit.com/product/2278) - 64x32 RGB LED Matrix
-   - [Digikey](https://www.digikey.com/en/products/detail/adafruit-industries-llc/2278/5356253)
-
-### Power Supplies
-1. Official Raspberry Pi 5 Power Supply (27W USB-C)
-   - [PiShop.ca](https://www.pishop.ca/product/raspberry-pi-5-27w-psu-white-na/) - North America
-   - [BuyaPi.ca](https://buyapi.ca/product/raspberry-pi-5-27w-power-supply-white-na/) - North America
-
-2. 5V 3A (or higher) Power Supply for LED Matrix
-   - [Adafruit](https://www.adafruit.com/product/1466) - 5V 4A Power Supply
-   - [Digikey](https://www.digikey.com/en/products/detail/mean-well-usa-inc/GST25U05-P1J/7703710)
-
-### Accessories
-1. microSD Card (32GB+ recommended)
-   - [PiShop.ca](https://www.pishop.ca/product/samsung-evo-plus-32gb-microsd-card-with-adapter/) - Samsung EVO+
-   - [BuyaPi.ca](https://buyapi.ca/product/samsung-evo-plus-32gb-microsdhc-with-adapter-100mb-s/)
-
-2. Active Cooling Case (recommended for Pi 5)
-   - [PiShop.ca](https://www.pishop.ca/product/raspberry-pi-5-active-cooling-case/)
-   - [BuyaPi.ca](https://buyapi.ca/product/raspberry-pi-5-active-cooling-case/)
-
-## Setup & Installation
-
-For detailed hardware and software setup instructions, please refer to the official Adafruit guide:
-[RGB Matrix Panels with Raspberry Pi 5](https://learn.adafruit.com/rgb-matrix-panels-with-raspberry-pi-5)
-
-## Configuration
-
-Configuration details can be found in the official documentation linked above. Make sure to follow the wiring and software setup instructions carefully.
-
-## Usage
-
-This application can be run either directly on your Raspberry Pi or via Docker.
-
-### Direct Method
-
-1. Create and activate a virtual environment:
+1. Clone the repository:
    ```bash
-   python -m venv fluidnc-ledscreen
-   source fluidnc-ledscreen/bin/activate
+   git clone https://github.com/yourusername/fluidnc-ledscreen.git
+   cd fluidnc-ledscreen
    ```
 
-2. Install required packages:
+2. Configure the application:
+   - Edit `config/fluidnc_config.ini` to set your FluidNC IP address
+   - If no IP is specified, the application will attempt to discover it automatically
+
+3. Build and start the containers:
    ```bash
-   pip install -r requirements.txt
+   # First time setup
+   docker-compose build
+   docker-compose up -d
+
+   # For subsequent updates
+   docker-compose build fluidnc-monitor
+   docker-compose up -d fluidnc-monitor
    ```
 
-3. Configure your FluidNC IP address:
+4. View the logs:
    ```bash
-   # Edit config file
-   nano config
+   docker-compose logs -f fluidnc-monitor
    ```
-   ```ini
-   [FluidNC]
-   ip_address = <your-fluidnc-ip>
-   update_interval = 0.05  # Updates every 50ms
-   ```
-
-4. Run the script (LED matrix requires sudo):
-   ```bash
-   sudo -E env PATH=$PATH python3 fluidnc_monitor.py
-   ```
-
-### Docker Method (Recommended)
-
-1. First-time setup:
-   ```bash
-   # Make management scripts executable
-   chmod +x scripts/*.sh
-
-   # Create environment file
-   ./scripts/create-env.sh
-   ```
-
-2. Start the container:
-   ```bash
-   ./scripts/start.sh
-   ```
-
-3. View logs:
-   ```bash
-   ./scripts/logs.sh
-   ```
-
-4. Stop the container:
-   ```bash
-   ./scripts/stop.sh
-   ```
-
-### Management Scripts
-
-The following scripts are available in the `scripts` directory:
-
-- `./scripts/start.sh` - Start the container (creates .env if needed)
-- `./scripts/stop.sh` - Stop the container
-- `./scripts/restart.sh` - Restart the container
-- `./scripts/logs.sh` - View container logs
-- `./scripts/update.sh` - Update to latest version
-- `./scripts/cleanup.sh` - Clean up Docker resources
-- `./scripts/create-env.sh` - Create/update .env file
-
-### Features
-
-- Real-time position monitoring via WebSocket
-- LED matrix display showing:
-  - Machine state
-  - X, Y, Z coordinates
-  - Status updates
-- Automatic reconnection
-- 50ms refresh rate
-- Test pattern on startup
-- Container health monitoring
-- Automatic log rotation
-- Hardware access via GPIO
-
-### Example Output
-
-#### Video Demo
-[![FluidNC LED Matrix Display Demo](https://img.youtube.com/vi/jGGGwgc2lLE/0.jpg)](https://youtu.be/jGGGwgc2lLE)
-
-*Click image to watch video demonstration*
-
-The LED matrix display shows:
-1. Machine state at the top (e.g., "Idle", "Run", "Hold")
-2. Real-time position coordinates:
-   - X position in red
-   - Y position in green
-   - Z position in blue
-3. White border around the display
-
-Terminal output example:
-```
-Time: 2024-02-15 14:12:15.739
-Machine State: Idle
-Position:
-  X: 0.000 mm
-  Y: 0.000 mm
-  Z: 0.000 mm
-
-Reconnections: 0
-Press Ctrl+C to stop
-```
-
-For video demonstrations of the display in action, check the project's releases page.
 
 ### Troubleshooting
 
-If you encounter issues:
-1. Check your FluidNC IP address is correct
-2. Verify LED matrix connections
-3. Ensure proper permissions for GPIO access
-4. Check container logs for errors
-5. Verify network connectivity to FluidNC
+1. If the display doesn't show:
+   - Check the logs for any errors
+   - Verify the LED matrix panel is properly connected
+   - Ensure the user has permissions to access the GPIO pins
 
-For hardware-specific issues, refer to the Adafruit guide linked in the Setup section.
+2. If coordinates don't update:
+   - Verify FluidNC is running and accessible
+   - Check the IP address configuration
+   - Review the logs for connection issues
 
-## Contributing
+3. If the display shows incorrect data:
+   - Verify the FluidNC configuration
+   - Check if the machine is properly homed
+   - Review the logs for parsing errors
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## Project Structure
+
+```
+.
+├── fluidnc_monitor.py    # Main application code
+├── docker-compose.yml    # Container orchestration
+├── logging_config.py    # Logging configuration
+├── requirements.txt     # Python dependencies
+├── config/             # Configuration directory
+│   └── fluidnc_config.ini  # Main configuration file
+├── fluidnc-monitor/    # Docker build files
+│   ├── Dockerfile.base    # Base image definition
+│   └── Dockerfile        # Service image definition
+├── logs/               # Log files directory (ignored by git)
+├── .dockerignore       # Docker build exclusions
+├── .gitignore         # Git exclusions
+└── README.md          # Documentation
+```
+
+## Features
+
+- Real-time display of FluidNC machine status
+- Shows X, Y, Z coordinates with color coding
+- Displays connection status and IP address
+- Automatic discovery of FluidNC device
+- Configurable via INI file
+
+## Notes
+
+### Working Solutions
+
+1. Coordinate Updates
+   - Status requests are sent every 0.5 seconds to ensure immediate updates
+   - Keep-alive ping is sent every 5 seconds
+   - Display is refreshed before and after each status update
+   - WebSocket timeout is set to 0.1 seconds for responsive message handling
+
+2. Display Layout
+   - IP address shown at top right
+   - Coordinates (X, Y, Z) displayed vertically on left with color coding:
+     - X: Red
+     - Y: Green
+     - Z: Blue
+   - Status text shown on same line as Z coordinate
+   - Connection dot flashes green when connected
+
+### Known Issues
+
+1. None currently - all features working as expected
+
+### Future Improvements
+
+1. Add support for more status information (feed rate, spindle speed, etc.)
+2. Add configuration for update frequencies
+3. Add support for different display layouts
+4. Add support for different color schemes
+
+## Development Notes
+
+### Current Implementation (April 2025)
+
+The application has reached a stable state with the following working features:
+
+1. WebSocket Communication
+   - Stable connection to FluidNC on port 81
+   - Automatic reconnection on disconnection
+   - Keep-alive messages every 5 seconds
+   - Status requests every 0.5 seconds for immediate updates
+   - WebSocket timeout of 0.1 seconds for responsive updates
+
+2. Status Parsing
+   - Flexible key-value parser for status messages
+   - Handles variations in message format
+   - Extracts machine state and position data
+   - Ignores non-status messages (PING, ID)
+   - Real-time coordinate updates with proper formatting
+
+3. LED Matrix Display
+   - 64x32 RGB LED Matrix panel support
+   - Color-coded coordinate display (X: Red, Y: Green, Z: Blue)
+   - Real-time updates with immediate refresh
+   - Clean layout with IP at top right and status on Z coordinate line
+   - Flashing green connection indicator
+
+4. Configuration
+   - INI file-based configuration
+   - Support for static IP or automatic discovery
+   - Configurable update intervals
+   - Docker-based deployment for easy setup
+
+### Technical Details
+
+1. WebSocket Implementation
+   - Uses `websocket-client` library
+   - Handles connection drops gracefully
+   - Maintains persistent connection
+   - Processes messages asynchronously
+   - Implements proper error handling and reconnection logic
+
+2. Display Implementation
+   - Uses `adafruit_blinka_raspberry_pi5_piomatter` for LED control
+   - Custom font rendering for text
+   - Efficient buffer management
+   - Proper cleanup on exit
+   - Optimized display refresh timing
+
+3. Status Processing
+   - Parses messages in format `<State|Key:Value|Key:Value...>`
+   - Handles missing fields gracefully
+   - Updates display immediately on new data
+   - Maintains state between updates
+   - Properly formats coordinates with one decimal place
+
+### Build Process
+
+The project uses a multi-stage build process for faster development:
+
+1. Base Image (`fluidnc-monitor/Dockerfile.base`):
+   - Contains all system dependencies and Python packages
+   - Downloads and sets up fonts
+   - Rebuild only when dependencies change: `docker-compose build base`
+
+2. Monitor Service:
+   - Uses the base image for faster builds
+   - Contains only application code
+   - Quick rebuild: `docker-compose build fluidnc-monitor`
+
+3. Development Workflow:
+   - First time setup: `docker-compose build`
+   - Regular development: `docker-compose build fluidnc-monitor && docker-compose up -d fluidnc-monitor`
+   - View logs: `docker-compose logs -f fluidnc-monitor`
+
+### Key Improvements
+
+1. Coordinate Updates
+   - Implemented frequent status requests (every 0.5 seconds)
+   - Added display refresh before and after updates
+   - Optimized WebSocket timeout for responsiveness
+   - Ensured proper message parsing and display updates
+
+2. Display Layout
+   - IP address positioned at top right
+   - Coordinates displayed vertically on left
+   - Color-coded axes (X: Red, Y: Green, Z: Blue)
+   - Status text aligned with Z coordinate
+   - Flashing connection indicator
+
+3. Performance Optimizations
+   - Reduced WebSocket timeout to 0.1 seconds
+   - Implemented efficient display buffer management
+   - Added proper cleanup on exit
+   - Optimized message parsing
 
 ## License
 
-[Add your chosen license here] 
+[Add your chosen license here]

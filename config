@@ -1,4 +1,0 @@
-[FluidNC]
-ip_address = 10.0.0.246
-update_interval = 0.05
-# Update interval is in seconds (50ms) 
