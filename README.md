@@ -14,7 +14,7 @@ A Python application that displays FluidNC status on an LED matrix display.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/fluidnc-ledscreen.git
+   git clone https://github.com/fkcurrie/fluidnc-ledscreen.git
    cd fluidnc-ledscreen
    ```
 
