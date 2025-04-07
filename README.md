@@ -2,6 +2,15 @@
 
 A Python application that displays FluidNC status on an LED matrix display. Perfect for V1 Engineering LowRider CNC and other FluidNC machines. Real-time CNC machine status display showing coordinates, machine state, and connection status.
 
+## Version Information
+
+Current stable release: v1.0.0 (April 2024)
+- First General Availability (GA) release
+- Stable FluidNC WebSocket integration
+- LED matrix display support
+- Docker container deployment
+- Secure error handling
+
 ## Acknowledgments
 
 This project would not be possible without the following open-source projects and documentation:
@@ -102,7 +111,6 @@ This project provides real-time status monitoring for FluidNC controllers using 
 - Ideal for V1 Engineering LowRider CNC machines
 - Works with any FluidNC controller
 - Easy setup with Docker containers
-- Secure web interface for monitoring
 - Real-time coordinate updates
 - Machine state monitoring
 - Network status display
@@ -113,7 +121,10 @@ This project provides real-time status monitoring for FluidNC controllers using 
 - V1 Engineering projects
 - Raspberry Pi CNC display
 - Docker-based CNC monitoring
-- Web-based CNC status
+- Adafruit RGB Matrix Bonnet support
+- FluidNC WebSocket integration
+- Real-time machine state updates
+- Secure error handling
 
 ## Notes
 
