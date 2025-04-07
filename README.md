@@ -4,7 +4,7 @@ A Python application that displays FluidNC status on an LED matrix display. Perf
 
 ## Version Information
 
-Current stable release: v1.0.0 (April 2024)
+Current stable release: v1.0.0 (April 2025)
 - First General Availability (GA) release
 - Stable FluidNC WebSocket integration
 - LED matrix display support
