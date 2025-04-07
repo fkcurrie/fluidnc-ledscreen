@@ -293,3 +293,71 @@ Copyright (c) 2024-2025 fkcurrie. All rights reserved.
 
 - The application currently runs without a web interface. All configuration is done through environment variables and config files.
 - A web interface is planned for future development to make configuration and monitoring more user-friendly. See [GitHub Issue #9](https://github.com/fkcurrie/fluidnc-ledscreen/issues/9) for details.
+
+## Security
+
+This project implements several security measures to ensure safe operation:
+
+1. **Automated Security Scanning**
+   - Weekly security scans via GitHub Actions
+   - Dependency vulnerability checks
+   - Code security analysis with Bandit
+   - Snyk security scanning for dependencies
+
+2. **Dependency Management**
+   - Automated updates via Dependabot
+   - Weekly security dependency checks
+   - Immediate alerts for critical vulnerabilities
+   - Secure version pinning
+
+3. **Security Policy**
+   - Clear vulnerability reporting process
+   - Security best practices documentation
+   - Regular security updates
+   - Secure configuration defaults
+
+4. **Container Security**
+   - Minimal attack surface in Docker containers
+   - Regular base image updates
+   - Secure network configurations
+   - Principle of least privilege
+
+For more details, see our [Security Policy](SECURITY.md).
+
+## Development Setup
+
+### Prerequisites
+- Python 3.9 or higher
+- Docker and Docker Compose
+- Git
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/fkcurrie/fluidnc-ledscreen.git
+   cd fluidnc-ledscreen
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Set up pre-commit hooks (currently having issues with dependency installation, see [Issue #10](https://github.com/fkcurrie/fluidnc-ledscreen/issues/10)):
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+
+4. Build and start the Docker container:
+   ```bash
+   docker-compose up -d
+   ```
+
+### Testing Pre-commit Hooks
+The pre-commit hooks are now active and will run automatically when you make commits. They will check for:
+- Code formatting (Black)
+- Import sorting (isort)
+- Code linting (flake8)
+- Security issues (Bandit)
+- Python version compatibility (pyupgrade)
