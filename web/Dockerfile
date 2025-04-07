@@ -4,11 +4,11 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Install Flask and dependencies directly
-RUN pip install --no-cache-dir flask==1.1.2 werkzeug==1.0.1 gunicorn==20.1.0 jinja2==2.11.3 markupsafe==2.0.1 itsdangerous==1.1.0 click==7.1.2
+RUN pip install --no-cache-dir flask==2.3.3 werkzeug==3.0.6 gunicorn==23.0.0 jinja2==3.1.6 markupsafe==2.1.5 itsdangerous==2.1.2 click==8.1.7
 
 # Copy application code
-COPY web/app.py app.py
-COPY web/templates templates/
+COPY app.py app.py
+COPY templates templates/
 
 # Mount points for system files (defined here for documentation)
 VOLUME ["/proc", "/sys", "/etc"]

@@ -101,6 +101,18 @@ A Python application that displays FluidNC status on an LED matrix display.
    - Status text shown on same line as Z coordinate
    - Connection dot flashes green when connected
 
+3. Security Updates (April 2024)
+   - Updated Flask to 2.3.3 to fix session cookie disclosure vulnerability
+   - Updated Werkzeug to 3.0.6 to fix multipart data parsing vulnerability
+   - Updated Jinja2 to 3.1.6 to fix HTML attribute injection vulnerability
+   - Updated Gunicorn to 23.0.0 to fix HTTP request smuggling vulnerability
+   - Updated MarkupSafe to 2.1.5 for improved security
+   - Updated Click to 8.1.7 for improved security
+   - All dependencies are now at their latest secure versions
+   - Dependabot alerts are being monitored and addressed promptly
+   - Security updates are tested in Docker containers before deployment
+   - Fixed code scanning alert for stack trace exposure in web/app.py
+
 ### Known Issues
 
 1. None currently - all features working as expected

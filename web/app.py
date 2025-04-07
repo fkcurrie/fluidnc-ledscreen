@@ -142,8 +142,10 @@ def update_state():
         current_state = request.json
         return jsonify({'status': 'success'})
     except Exception as e:
-        logger.error(f"Error updating state: {e}")
-        return jsonify({'status': 'error', 'message': str(e)}), 400
+        # Log detailed error for debugging
+        logger.error(f"Error updating state: {str(e)}", exc_info=True)
+        # Return generic error to client
+        return jsonify({'status': 'error', 'message': 'Failed to update state'}), 400
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000) 
