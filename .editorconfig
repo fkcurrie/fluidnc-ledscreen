@@ -29,4 +29,4 @@ indent_size = 4
 
 # Requirements files
 [requirements*.txt]
-insert_final_newline = false 
+insert_final_newline = false

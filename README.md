@@ -211,6 +211,22 @@ The application has reached a stable state with the following working features:
    - Docker-based deployment for easy setup
    - Note: Currently no web interface - all configuration is done through environment variables and config files
 
+5. Code Quality and Development Tools
+   - Pre-commit hooks configured for consistent code quality:
+     - Black for code formatting
+     - isort for import sorting
+     - flake8 for style guide enforcement (with docstring checks)
+     - bandit for security checks
+     - pyupgrade for code modernization
+   - Configuration files:
+     - `.pre-commit-config.yaml`: Hook configurations
+     - `.flake8`: Style guide settings
+     - `.bandit`: Security check settings
+   - All Python files follow PEP 8 style guide
+   - Maximum line length set to 79 characters
+   - Comprehensive docstrings for modules and functions
+   - Automated checks run on every commit
+
 ### Technical Details
 
 1. WebSocket Implementation
@@ -343,7 +359,7 @@ For more details, see our [Security Policy](SECURITY.md).
    pip install -r requirements.txt
    ```
 
-3. Set up pre-commit hooks (currently having issues with dependency installation, see [Issue #10](https://github.com/fkcurrie/fluidnc-ledscreen/issues/10)):
+3. Set up pre-commit hooks:
    ```bash
    pip install pre-commit
    pre-commit install

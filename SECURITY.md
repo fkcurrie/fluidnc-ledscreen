@@ -8,56 +8,59 @@
 
 ## Reporting a Vulnerability
 
-We take the security of FluidNC LED Screen Monitor seriously. If you discover a security vulnerability, please follow these steps:
+We take the security of FluidNC LED Screen Monitor seriously. If you believe you have found a security vulnerability, please report it to us as described below.
 
-1. **Do Not** disclose the vulnerability publicly until it has been addressed
-2. Submit a detailed report to [security contact information]
-3. Include:
-   - Description of the vulnerability
-   - Steps to reproduce
-   - Potential impact
-   - Suggested fixes (if any)
-   - Your contact information
+**Please do not report security vulnerabilities through public GitHub issues.**
 
-## Security Features
+Instead, please report them via email to [security@sfle.ca]. You should receive a response within 48 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
 
-The FluidNC LED Screen Monitor implements several security measures:
+Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
 
-1. **Error Handling**
-   - Secure error messages that don't expose internal details
-   - Stack traces logged server-side only
-   - Generic error responses to clients
+* Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
+* Full paths of source file(s) related to the manifestation of the issue
+* The location of the affected source code (tag/branch/commit or direct URL)
+* Any special configuration required to reproduce the issue
+* Step-by-step instructions to reproduce the issue
+* Proof-of-concept or exploit code (if possible)
+* Impact of the issue, including how an attacker might exploit the issue
 
-2. **Dependency Management**
-   - Regular security updates via Dependabot
-   - Latest secure versions of all dependencies
-   - Automated dependency scanning
+This information will help us triage your report more quickly.
 
-3. **Network Security**
-   - WebSocket communication with FluidNC
-   - No exposed sensitive endpoints
-   - Secure connection handling
+## Preferred Languages
 
-4. **Container Security**
-   - Docker-based deployment
-   - Minimal attack surface
-   - Regular base image updates
+We prefer all communications to be in English.
+
+## Security Measures
+
+This project implements several security measures:
+
+1. Regular dependency updates via Dependabot
+2. Security scanning of dependencies
+3. Code scanning for vulnerabilities
+4. Secure configuration defaults
+5. Input validation and sanitization
+6. Error handling that prevents information disclosure
 
 ## Security Updates
 
-Security updates are handled through:
-1. Dependabot alerts for dependency vulnerabilities
-2. Regular security scans
-3. Manual security reviews
+Security updates are released as soon as possible after a vulnerability is discovered and fixed. We follow these steps:
 
-## Best Practices
+1. Assess the severity of the vulnerability
+2. Develop and test a fix
+3. Release a security update
+4. Notify users through GitHub releases
+5. Update documentation with security notes
 
-When using this project:
-1. Keep dependencies updated
-2. Use the latest stable version
-3. Monitor security alerts
-4. Follow deployment guidelines
-5. Report security issues promptly
+## Security Best Practices
+
+When using this project, we recommend:
+
+1. Always use the latest stable version
+2. Keep dependencies up to date
+3. Follow the principle of least privilege
+4. Monitor logs for suspicious activity
+5. Regularly backup configuration files
+6. Use secure network configurations
 
 ## Contact
 

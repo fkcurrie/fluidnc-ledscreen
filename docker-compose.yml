@@ -31,4 +31,4 @@ volumes:
 
 networks:
   fluidnc-network:
-    driver: bridge 
+    driver: bridge

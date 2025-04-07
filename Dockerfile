@@ -79,4 +79,4 @@ USER appuser
 # Set the entrypoint to use the virtual environment's Python
 ENV PATH="/opt/venv/bin:$PATH"
 
-CMD ["python", "monitor.py"] 
+CMD ["python", "monitor.py"]

@@ -37,4 +37,4 @@ RUN BDF_BASE_URL="https://raw.githubusercontent.com/hzeller/rpi-rgb-led-matrix/m
 COPY --chown=monitoruser:monitoruser ../requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-USER monitoruser 
+USER monitoruser

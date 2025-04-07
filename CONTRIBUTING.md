@@ -69,4 +69,4 @@ pylint **/*.py
 
 Feel free to open an issue for questions or discussions.
 
-Thank you for contributing! 
+Thank you for contributing!

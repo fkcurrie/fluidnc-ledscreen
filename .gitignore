@@ -27,6 +27,7 @@ ENV/
 .env
 .venv
 test_venv/
+fluidnc-ledscreen/bin/
 
 # IDE
 .idea/
