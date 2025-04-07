@@ -25,17 +25,6 @@ services:
     networks:
       - fluidnc-network
 
-  web-interface:
-    build:
-      context: ./web
-      dockerfile: Dockerfile
-    container_name: web-interface
-    ports:
-      - "5000:5000"
-    restart: unless-stopped
-    networks:
-      - fluidnc-network
-
 volumes:
   fluidnc_logs:
     name: fluidnc_logs
