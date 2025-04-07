@@ -22,8 +22,8 @@ wheels/
 
 # Virtual Environment
 venv/
-ENV/
 env/
+ENV/
 .env
 .venv
 test_venv/
@@ -36,12 +36,13 @@ test_venv/
 .cursor/
 
 # Logs
-logs/*
-!logs/.gitkeep
 *.log
+logs/
+log/
 
 # Docker
 .docker/
+docker-compose.override.yml
 
 # Test files
 test_*.py
@@ -68,3 +69,31 @@ Thumbs.db
 .github-token
 .github_token
 *.github_token
+
+# Local configuration
+config.local.yaml
+*.local.yaml
+
+# Security
+*.pem
+*.key
+*.crt
+*.csr
+*.srl
+*.p12
+*.pfx
+*.der
+*.priv
+*.pub
+*.asc
+*.gpg
+*.pgp
+*.bak
+*.backup
+*.temp
+
+# Pre-commit
+.pre-commit-cache/
+.pytest_cache/
+.coverage
+htmlcov/

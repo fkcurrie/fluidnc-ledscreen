@@ -1,0 +1,4 @@
+# Bandit configuration file
+exclude_dirs: ['tests']
+skips: ['B101']
+test_id: ['B110', 'B112']

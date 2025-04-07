@@ -1,0 +1,19 @@
+[flake8]
+max-line-length = 79
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    fluidnc-ledscreen/bin/*,
+    venv
+per-file-ignores =
+    __init__.py:F401,D104
+    tests/*:D100,D101,D102,D103
+ignore =
+    # D100: Missing docstring in public module
+    D100,
+    # D104: Missing docstring in public package
+    D104,
+    # W503: Line break before binary operator
+    W503
