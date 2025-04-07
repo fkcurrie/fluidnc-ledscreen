@@ -145,7 +145,7 @@ This project provides real-time status monitoring for FluidNC controllers using 
    - Status text shown on same line as Z coordinate
    - Connection dot flashes green when connected
 
-3. Security Updates (April 2024)
+3. Security Updates (April 2025)
    - Updated Flask to 2.3.3 to fix session cookie disclosure vulnerability
    - Updated Werkzeug to 3.0.6 to fix multipart data parsing vulnerability
    - Updated Jinja2 to 3.1.6 to fix HTML attribute injection vulnerability
@@ -163,10 +163,17 @@ This project provides real-time status monitoring for FluidNC controllers using 
 
 ### Future Improvements
 
-1. Add support for more status information (feed rate, spindle speed, etc.)
-2. Add configuration for update frequencies
-3. Add support for different display layouts
-4. Add support for different color schemes
+1. Add support for more status information (feed rate, spindle speed, etc.) - See [GitHub Issue #1](https://github.com/fkcurrie/fluidnc-ledscreen/issues/1)
+2. Add configuration for update frequencies - See [GitHub Issue #2](https://github.com/fkcurrie/fluidnc-ledscreen/issues/2)
+3. Add support for different display layouts - See [GitHub Issue #3](https://github.com/fkcurrie/fluidnc-ledscreen/issues/3)
+4. Add support for different color schemes - See [GitHub Issue #4](https://github.com/fkcurrie/fluidnc-ledscreen/issues/4)
+5. Web Interface Implementation (Planned)
+   - Real-time status monitoring through web browser
+   - Configuration management interface
+   - Display content preview and management
+   - System settings management
+   - Mobile-responsive design
+   - See [GitHub Issue #9](https://github.com/fkcurrie/fluidnc-ledscreen/issues/9) for details
 
 ## Development Notes
 
@@ -202,6 +209,7 @@ The application has reached a stable state with the following working features:
    - Support for static IP or automatic discovery
    - Configurable update intervals
    - Docker-based deployment for easy setup
+   - Note: Currently no web interface - all configuration is done through environment variables and config files
 
 ### Technical Details
 
@@ -282,3 +290,6 @@ Under the following terms:
 For more information about this license, visit: https://creativecommons.org/licenses/by-sa/4.0/
 
 Copyright (c) 2024-2025 fkcurrie. All rights reserved.
+
+- The application currently runs without a web interface. All configuration is done through environment variables and config files.
+- A web interface is planned for future development to make configuration and monitoring more user-friendly. See [GitHub Issue #9](https://github.com/fkcurrie/fluidnc-ledscreen/issues/9) for details.
