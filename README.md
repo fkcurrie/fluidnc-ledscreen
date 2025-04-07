@@ -2,6 +2,20 @@
 
 A Python application that displays FluidNC status on an LED matrix display. Perfect for V1 Engineering LowRider CNC and other FluidNC machines. Real-time CNC machine status display showing coordinates, machine state, and connection status.
 
+## Acknowledgments
+
+This project would not be possible without the following open-source projects and documentation:
+
+1. [Adafruit RGB Matrix Panels with Raspberry Pi 5](https://learn.adafruit.com/rgb-matrix-panels-with-raspberry-pi-5?view=all#scrolling-text)
+   - Provides the foundation for driving RGB LED Matrix panels on Raspberry Pi 5
+   - Uses the Adafruit Blinka Raspberry Pi5 PioMatter library
+   - Enables real-time display updates and panel control
+
+2. [FluidNC WebSocket Interface](http://wiki.fluidnc.com/en/support/interface/websockets)
+   - Documentation for FluidNC's WebSocket communication protocol
+   - Enables real-time status monitoring and machine control
+   - Provides the protocol specifications for machine state updates
+
 ## Overview
 
 This project provides real-time status monitoring for FluidNC controllers using a 64x32 RGB LED Matrix panel. It's specifically designed for V1 Engineering LowRider CNC machines but works with any FluidNC controller. The display shows machine coordinates (X, Y, Z), machine state, and connection status in real-time.
@@ -243,4 +257,17 @@ The project uses a multi-stage build process for faster development:
 
 ## License
 
-[Add your chosen license here]
+This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0). This means you are free to:
+
+- Share: Copy and redistribute the material in any medium or format
+- Adapt: Remix, transform, and build upon the material
+
+Under the following terms:
+
+- Attribution: You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+- ShareAlike: If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+- No additional restrictions: You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+
+For more information about this license, visit: https://creativecommons.org/licenses/by-sa/4.0/
+
+Copyright (c) 2024-2025 fkcurrie. All rights reserved.
